@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./Scenes/Dashboard";
 import Authentication from "./Scenes/Authentication";
 import StudentLister from "./Scenes/StudentLister";
+import Details from "./Scenes/Details";
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
             <Routes setUser={user}>
               <Route path="/" element={<Dashboard setActive={setActive} />}/>
               <Route path="/authentication" element={<Authentication setActive={setActive} user={user}/>}/>
-              <Route path="/studentlist" element={<StudentLister setActive={setActive}/>}/>
+              <Route path="/manifesto" element={<StudentLister setActive={setActive}/>}/>
+              <Route path="/viewcustomer" element={<Details/>}/>
             </Routes>
           </main>
         </div>

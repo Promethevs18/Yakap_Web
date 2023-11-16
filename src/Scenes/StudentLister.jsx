@@ -1,55 +1,51 @@
 import React from 'react'
 import Header from '../Components/Header'
-import { Avatar, Box } from '@mui/material'
+import { Avatar, Box, FormControlLabel, FormLabel, InputLabel, Radio, RadioGroup } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { getDatabase, onValue, ref } from 'firebase/database'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useTheme } from '@emotion/react'
 import { tokens } from '../theme'
+import { collection, getDocs, getFirestore } from '@firebase/firestore'
+import { async } from 'q'
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { FormControl } from '@mui/base'
+import { MenuItem } from 'react-pro-sidebar'
+
 
 const StudentLister = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [studentList, setStudentList] = useState([]);
-    const database = getDatabase();
+    const [userList, setUserList] = useState([]);
+    const db = getFirestore();
+    const [section, setSection] = useState("LB");
 
+    const handleChange = (event) => {
+      setSection(event.target.value);
+    };
+
+    console.log(section)
+
+    //for the data
     useEffect(() => {
-        const fetchData = () => {
-          const patients = [];
-          const databaseRef = ref(database, "Grade Level/");
-          onValue(
-            databaseRef,
-            (snapshot) => {
-              snapshot.forEach((patientSnapshot) => {
-                const patientData = patientSnapshot.val();
-    
-                Object.keys(patientData).forEach((key) => {
-                  const patient = {
-                    id: key,
-                    ...patientData[key],
-                  };
-                  patients.push(patient);
-                });
-              });
-    
-              setStudentList([...patients]); // Create a new array with the updated data
-            },
-            (error) => {
-              toast.error(error);
-            }
-          );
+        const fetchData = async () => {
+          const users = [];
+          const queryUsers = await getDocs(collection(db, section));
+          queryUsers.forEach((laman) =>{
+            users[laman.id] = { id: laman.id, ...laman.data() }
+          });
+
+          setUserList(Object.values(users))
         };
         fetchData();
       });
 
   
-      
     const columns = [
         {
-          field: "student_img",
-          headerName: "Profile Image",
+          field: "receiptLink",
+          headerName: "Receipt Image",
           width: 150,
           height: 150,
           renderCell: (params) => (
@@ -64,29 +60,47 @@ const StudentLister = () => {
             >
               <Avatar
                 src={params.value}
-                alt="profile"
+                alt="receipt"
                 sx={{ height: "50px", width: "50px" }}
               />
             </div>
           ),
         },
         {
-          field: "student_name",
-          headerName: "Student's Name",
+          field: "fullName",
+          headerName: "Customer's Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
-        { field: "strand", headerName: "Strand", flex: 1 },
-        { field: "grade_level", headerName: "Grade Level", flex: 1 },
-        { field: "id_num", headerName: "ID Number", flex: 1 },
-        { field: "caretaker_name", headerName: "Caretaker's Name", flex: 1 },
+        { field: "address", headerName: "Address", flex: 1 },
+        { field: "email", headerName: "Email Address", flex: 1 },
+        { field: "paymentMode", headerName: "Payment Mode", flex: 1 },
+        { field: "phoneNum", headerName: "Phone number", flex: 1 },
       ];
     
   return (
     <Box m="20px">
         <Header 
-            title="Student Manifesto"
-            subtitle="This section allows you to view all the listed students in the system"/>
+            title="Customer Manifesto"
+            subtitle="This section allows you to view all the listed customers for each seat section in the system"/>
+         <Box sx={{ minWidth: 120 }}>
+         <FormControl>
+    <FormLabel id="description">Seat Section</FormLabel>
+        <RadioGroup
+            aria-labelledby="description"
+            defaultValue="LB"
+            name="radio-buttons-group"
+            row
+            value={section}
+            onChange={handleChange}
+            >
+              <FormControlLabel value="LB" control={<Radio />} label="LB" />
+              <FormControlLabel value="UPB" control={<Radio />} label="UPB" />
+              <FormControlLabel value="VIP" control={<Radio />} label="VIP" />
+        </RadioGroup>
+    </FormControl>
+         </Box>
+    
         <Box 
             m="40px 0 0 0"
             height="75vh"
@@ -98,23 +112,23 @@ const StudentLister = () => {
                   borderBottom: "none",
                 },
                 "& .name-column--cell": {
-                  color: colors.white[200],
+                  color: colors.rich[200],
                 },
                 "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: colors.goldish[700],
+                  backgroundColor: colors.grey[700],
                   borderBottom: "none",
                 },
                 "& .MuiDataGrid-virtualScroller": {
-                  backgroundColor: colors.white[700],
+                  backgroundColor: colors.rich[700],
                 },
                 "& .MuiDataGrid-footerContainer": {
                   borderTop: "none",
-                  backgroundColor: colors.maroon[600],
+                  backgroundColor: colors.pale[800],
                 },
               }}
         >
 
-        <DataGrid rows={studentList} columns={columns}/>
+        <DataGrid rows={userList} columns={columns}/>
        </Box>
     </Box>
   )

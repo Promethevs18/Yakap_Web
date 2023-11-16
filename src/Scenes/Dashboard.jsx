@@ -39,10 +39,10 @@ const Dashboard = () => {
        <Box display="flex" justifyContent="space-evenly">
           <Typography
             variant="h2"
-            color={colors.goldish[100]}
+            color={colors.grey[100]}
             fontWeight="bold"
             sx={{m: "5px 0 0 0"}}>
-              Grade Level Chart
+              
             </Typography>
 
        </Box>

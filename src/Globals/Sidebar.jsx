@@ -29,7 +29,7 @@ const Item = ({ title, to, icon, selected, setSelected, user }) => {
   return (
     <MenuItem
       active={selected === title}
-      style={{ color: kulay.maroon[100] }}
+      style={{ color: kulay.royal[100] }}
       onClick={() => out_and_select(title)}
       icon={icon}
     >
@@ -42,7 +42,7 @@ const Item = ({ title, to, icon, selected, setSelected, user }) => {
 const Sidebar = ({ user, setActive }) => {
   const theme = useTheme();
   const kulay = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
 
@@ -50,7 +50,7 @@ const Sidebar = ({ user, setActive }) => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${kulay.maroon[600]} !important`,
+          background: `${kulay.royal[600]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -74,7 +74,7 @@ const Sidebar = ({ user, setActive }) => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              color: kulay.goldish[100],
+              color: kulay.grey[100],
             }}
           >
             {!isCollapsed && (
@@ -94,19 +94,25 @@ const Sidebar = ({ user, setActive }) => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
+                <img 
+                 src="https://firebasestorage.googleapis.com/v0/b/yakap-ticketing-system.appspot.com/o/heartlogo.png?alt=media&token=a6b4fabd-3bae-4eb4-a6d8-b037545ffcc0"
+                 alt="yakap-logo"
+                 height="200px"
+                 width="250dp"
+                 />
               </Box>
               <Box textAlign="center">
                 { user?.uid && (
                   <Typography
                     variant="h2"
-                    color={kulay.maroon[100]}
+                    color={kulay.royal[100]}
                     fontWeight="bold"
                     sx={{ m: "10px 0 0 0" }}
                   >
                     Administrator
                   </Typography>
                 )}
-                <Typography variant="h5" color={kulay.white[400]}>
+                <Typography variant="h5" color={kulay.rich[400]}>
                    Attendance Monitoring System
                 </Typography>
               </Box>
@@ -122,23 +128,23 @@ const Sidebar = ({ user, setActive }) => {
               selected={selected}
               setSelected={setSelected}
             />
-            { user?.uid && (
-                <Item
-                     title="Add Student"
-                     to="/addstudent"
-                     icon={<Diversity3Icon/>}
-                     selected={selected}
-                     setSelected={setSelected}
-                /> 
-            )}
-            {user?.uid &&(
+             {user?.uid &&(
                <Item
-                 title="Student Manifest"
-                 to="/studentlist"
+                 title="Customer Manifest"
+                 to="/manifesto"
                  icon={<SummarizeOutlined/>}
                 selected={selected}
                 setSelected={setSelected}
           /> 
+            )}
+            { user?.uid && (
+                <Item
+                     title="View Customer Information"
+                     to="/viewcustomer"
+                     icon={<Diversity3Icon/>}
+                     selected={selected}
+                     setSelected={setSelected}
+                /> 
             )}
             {user?.uid ? (
               <Item
