@@ -36,14 +36,108 @@ const Dashboard = () => {
   return (
     <Box m="20px">
          <Header title="DASHBOARD" subtitle="This is where general information are displayed "/>
-       <Box display="flex" justifyContent="space-evenly">
+       <Box display="flex" justifyContent="space-evenly" >
+         {/* VIP SECTION EME */}
+         <Box 
+          height="185px"
+          weight="455px"
+          position="relative"
+          width="440px">
+            <Box
+              sx={{backgroundColor: colors.grey[200]}}
+              borderRadius="20px"
+              height="125px"
+              position="relative"
+              width="300px"
+            >
+              {/* VIP title */}
+                <Typography
+                  variant="h2"
+                  color={colors.grey[900]}
+                  fontWeight="bold"
+                  display="flex"
+                  align="center"
+                  sx={{ justifyContent:"center"}}>
+                    VIP Section
+                </Typography>
+                <Box display="flex" justifyContent="space-evenly">
+                    <Typography
+                      variant="h1"
+                      color={colors.grey[900]}
+                      fontWeight="1000"
+                      display="flex"
+                      align="center"
+                      sx={{ justifyContent:"center", fontSize: "60px"}}>
+                        999
+                    </Typography>
+                    <Typography
+                        variant="h2"
+                        color={colors.grey[900]}
+                        display="flex"
+                        align="center"
+                        sx={{ justifyContent:"center", marginTop:"20px"}}>
+                          tickets sold
+                    </Typography>
+                </Box>
+              
+            </Box>
+         </Box>
+         <Box 
+          height="185px"
+          weight="455px"
+          position="relative"
+          top="100px"
+          width="440px">
+          <Box
+            sx={{backgroundColor: colors.grey[200]}}
+            borderRadius="20px"
+            height="150px"
+            position="relative"
+            width="350px"
+          >
           <Typography
+            variant="h2"
+            color={colors.grey[800]}
+            fontWeight="bold"
+            display="flex"
+            align="center"
+            sx={{m: "5px 0 0 0"}}>
+              hello
+            </Typography>
+          </Box>
+         
+         </Box>
+         <Box 
+          height="185px"
+          weight="455px"
+          position="relative"
+          top="100px"
+          width="440px">
+          <Box
+            sx={{backgroundColor: colors.grey[200]}}
+            borderRadius="20px"
+            height="150px"
+            position="relative"
+            width="350px"
+          >
+          <Typography
+            variant="h2"
+            color={colors.grey[800]}
+            fontWeight="bold"
+            display="flex"
+            align="center"
+            sx={{m: "5px 0 0 0"}}>
+              hello
+            </Typography>
+          </Box>
+         
+         </Box>
+          {/* <Typography
             variant="h2"
             color={colors.grey[100]}
             fontWeight="bold"
             sx={{m: "5px 0 0 0"}}>
-              
-            </Typography>
+            </Typography> */}
 
        </Box>
    
