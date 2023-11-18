@@ -3,7 +3,7 @@ import Header from '../Components/Header'
 import { Box, Typography, useTheme } from '@mui/material'
 import { tokens } from '../theme'
 import { ResponsiveBar } from "@nivo/bar"
-import { collection, getDocs, getFirestore, where, doc, getDoc } from '@firebase/firestore'
+import { collection, getDocs, getFirestore, where, doc, getDoc, get } from '@firebase/firestore'
 import { ResponsivePie } from '@nivo/pie'
 
 const Dashboard = () => {
@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [allUPB, setAllUPB] = useState("");
 
   //for the graph data
-  const [vipPay, setVipPay] = useState([]);
+  const [vipPay, setVipPay] = useState(0);
   const [lbPay, setLbPay] = useState([]);
   const [upbPay, setUpbPay] = useState([]);
 
@@ -25,8 +25,16 @@ const Dashboard = () => {
   useEffect(() => {   
     const getVip = async () => {
       const queryVIP = await getDocs(collection(db, "VIP"));
-      setAllVIP(queryVIP.size)
       
+      let tixCount = 0
+      
+      queryVIP.forEach((snappy) => {
+        const lahatBinili =  parseInt(snappy.data().ticketsBought, 10);
+
+        tixCount += lahatBinili
+      })
+      setAllVIP(tixCount)
+
       const modes = await getDocs(collection(db, "VIP"), where("paymentMode", "!=", ""));
       const modeCounts = []
       modes.forEach((snap) => {
@@ -45,7 +53,14 @@ const Dashboard = () => {
     }
     const getLB = async () => {
       const queryLB = await getDocs(collection(db, "LB"));
-      setAllLB(queryLB.size);
+      let tixCount = 0
+      
+      queryLB.forEach((snappy) => {
+        const lahatBinili =  parseInt(snappy.data().ticketsBought, 10);
+
+        tixCount += lahatBinili
+      })
+      setAllLB(tixCount)
 
       const modes = await getDocs(collection(db, "LB"), where("paymentMode", "!=", ""));
       const modeCounts = []
@@ -64,7 +79,14 @@ const Dashboard = () => {
     }
     const getUPB = async () => {
       const queryUPB = await getDocs(collection(db, "UPB"));
-      setAllUPB(queryUPB.size)
+      let tixCount = 0
+      
+      queryUPB.forEach((snappy) => {
+        const lahatBinili =  parseInt(snappy.data().ticketsBought, 10);
+
+        tixCount += lahatBinili
+      })
+      setAllUPB(tixCount)
 
       const modes = await getDocs(collection(db, "UPB"), where("paymentMode", "!=", ""));
       const modeCounts = []
@@ -88,6 +110,7 @@ const Dashboard = () => {
         const data = docSnap.data();
         setAllSeats(data)
     };
+
     getAll()
     getLB()
     getUPB()
